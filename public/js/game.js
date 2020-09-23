@@ -10,6 +10,7 @@ Game.preload = function() {
 };
 
 Game.create = function() {
+  Game.playerMap = {};
   var map = game.add.tilemap('map');
   map.addTilesetImage('tilesheet', 'tileset'); // tilesheet is the key of the tileset in map's JSON file
 
@@ -18,4 +19,9 @@ Game.create = function() {
     layer = map.createLayer(i);
   }
   layer.inputEnabled = true;  // Allows clicking on the map
+  Client.askNewPlayer();
+};
+
+Game.addNewPlayer = function(id, x, y) {
+  Game.playerMap[id] = game.add.sprite(x, y, 'sprite');
 };
