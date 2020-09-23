@@ -34,5 +34,7 @@ io.on('connection', socket => {
     };
     socket.emit('allplayers', getAllPlayers());
     socket.broadcast.emit('newplayer', socket.player);
+
+    socket.on('disconnect', () => io.emit('remove', socket.player.id));
   });
 });
