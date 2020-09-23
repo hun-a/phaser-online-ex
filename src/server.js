@@ -26,6 +26,7 @@ const getAllPlayers = () => {
 
 io.on('connection', socket => {
   console.log(`new connection: ${socket.id}`);
+
   socket.on('newplayer', () => {
     socket.player = {
       id: server.lastPlayerID++,
@@ -34,6 +35,13 @@ io.on('connection', socket => {
     };
     socket.emit('allplayers', getAllPlayers());
     socket.broadcast.emit('newplayer', socket.player);
+
+    socket.on('click', ({ x, y }) => {
+      console.log(`Click to ${x}, ${y}`)
+      socket.player.x = x;
+      socket.player.y = y;
+      io.emit('move', socket.player);
+    });
 
     socket.on('disconnect', () => io.emit('remove', socket.player.id));
   });
